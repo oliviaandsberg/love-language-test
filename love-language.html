@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Language Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#faf6f0;--warm:#f0e8dc;--terra:#c4714a;--terra-l:#e8a07a;--forest:#3d5a47;--forest-l:#6b8f77;--ink:#1a1410;--muted:#8a7f76;--gold:#c9a84c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-20%;right:-15%;width:60vw;height:60vw;background:radial-gradient(ellipse,rgba(196,113,74,.07) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;bottom:-10%;left:-10%;width:50vw;height:50vw;background:radial-gradient(ellipse,rgba(61,90,71,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none;z-index:0}
+.wrap{max-width:640px;margin:0 auto;padding:52px 24px 80px;position:relative;z-index:1}
+.header{text-align:center;margin-bottom:60px}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--terra);font-weight:500;margin-bottom:18px}
+.header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,9vw,64px);font-weight:300;line-height:1.05;margin-bottom:18px}
+.header h1 em{font-style:italic;color:var(--terra)}
+.header p{font-size:15px;color:var(--muted);line-height:1.75;max-width:440px;margin:0 auto;font-weight:300}
+.banner{display:none;text-align:center;padding:52px 36px;background:white;border-radius:24px;box-shadow:0 4px 48px rgba(26,20,16,.07);margin-bottom:32px}
+.banner.on{display:block}
+.banner-icon{font-size:44px;display:block;margin-bottom:20px}
+.banner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,36px);font-weight:300;line-height:1.2;margin-bottom:14px}
+.banner h2 em{font-style:italic;color:var(--forest)}
+.banner p{font-size:15px;color:var(--muted);line-height:1.75;font-weight:300;max-width:400px;margin:0 auto 28px}
+.btn-go{background:var(--forest);border:none;color:white;padding:14px 36px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;transition:all .2s}
+.btn-go:hover{background:#2e4435;transform:translateY(-1px)}
+.prog{margin-bottom:36px}
+.prog-bars{display:flex;gap:8px;margin-bottom:8px}
+.prog-bar{flex:1;height:2px;background:rgba(138,127,118,.18);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px;transition:width .5s ease}
+.pf-r{background:linear-gradient(90deg,var(--terra-l),var(--terra))}
+.pf-g{background:linear-gradient(90deg,var(--forest-l),var(--forest))}
+.prog-row{display:flex;justify-content:space-between;align-items:center}
+.prog-label{font-size:12px;color:var(--muted);font-weight:300}
+.prog-pill{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;padding:3px 10px;border-radius:100px}
+.pill-r{background:rgba(196,113,74,.1);color:var(--terra)}
+.pill-g{background:rgba(61,90,71,.1);color:var(--forest)}
+.q-card{background:white;border-radius:24px;padding:36px;box-shadow:0 2px 32px rgba(26,20,16,.06);margin-bottom:16px}
+.q-num{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:18px}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3.2vw,23px);font-weight:400;line-height:1.45;color:var(--ink);margin-bottom:28px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{position:relative;padding:17px 17px 17px 50px;border:1.5px solid rgba(138,127,118,.2);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s,transform .15s;background:transparent;text-align:left;width:100%;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);line-height:1.6;font-weight:300}
+.badge{position:absolute;top:16px;left:14px;width:22px;height:22px;border-radius:50%;background:var(--warm);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted);transition:background .15s,color .15s}
+.opt.r:hover{border-color:var(--terra-l);background:rgba(196,113,74,.04);transform:translateX(3px)}
+.opt.r.sel{border-color:var(--terra);background:rgba(196,113,74,.06);transform:translateX(3px)}
+.opt.r.sel .badge{background:var(--terra);color:white}
+.opt.g:hover{border-color:var(--forest-l);background:rgba(61,90,71,.04);transform:translateX(3px)}
+.opt.g.sel{border-color:var(--forest);background:rgba(61,90,71,.06);transform:translateX(3px)}
+.opt.g.sel .badge{background:var(--forest);color:white}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.btn-back{background:none;border:1.5px solid rgba(138,127,118,.28);color:var(--muted);padding:12px 22px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all .2s}
+.btn-back:hover{border-color:var(--muted);color:var(--ink)}
+.btn-fwd{border:none;color:white;padding:13px 28px;border-radius:100px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;transition:all .2s;opacity:.3;pointer-events:none}
+.btn-fwd.r{background:var(--terra)}
+.btn-fwd.g{background:var(--forest)}
+.btn-fwd.on{opacity:1;pointer-events:all}
+.btn-fwd.r.on:hover{background:#b3623e;transform:translateY(-1px)}
+.btn-fwd.g.on:hover{background:#2e4435;transform:translateY(-1px)}
+.results{display:none}
+.results.on{display:block}
+.res-head{text-align:center;margin-bottom:52px}
+.res-head h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,7vw,54px);font-weight:300;line-height:1.05;margin-bottom:12px}
+.res-head h2 em{font-style:italic;color:var(--terra)}
+.res-head p{font-size:15px;color:var(--muted);font-weight:300;line-height:1.7}
+.top-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:500px){.top-cards{grid-template-columns:1fr}}
+.top-card{border-radius:22px;padding:32px 26px;color:white;position:relative;overflow:hidden}
+.top-card::before{content:'';position:absolute;top:-30%;right:-10%;width:70%;height:200%;background:radial-gradient(ellipse,rgba(255,255,255,.08) 0%,transparent 70%);border-radius:50%}
+.tc-r{background:var(--terra)}
+.tc-g{background:var(--forest)}
+.tc-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500;margin-bottom:10px}
+.tc-icon{font-size:34px;display:block;margin-bottom:10px}
+.tc-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;margin-bottom:8px}
+.tc-sub{font-size:12px;color:rgba(255,255,255,.55)}
+.tc-bar{margin-top:22px;height:2px;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden}
+.tc-bar-fill{height:100%;background:rgba(255,255,255,.7);border-radius:2px;transition:width 1.2s .4s ease}
+.insight{background:white;border-radius:18px;padding:28px 32px;box-shadow:0 2px 20px rgba(26,20,16,.05);border-left:3px solid var(--gold);margin-bottom:16px}
+.insight h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:8px}
+.insight p{font-size:14px;color:var(--muted);line-height:1.75;font-weight:300}
+.score-block{background:white;border-radius:18px;padding:28px 32px;box-shadow:0 2px 20px rgba(26,20,16,.05);margin-bottom:16px}
+.score-block h3{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-r{background:var(--terra)}.dot-g{background:var(--forest)}
+.s-row{display:flex;align-items:center;gap:14px;margin-bottom:13px}
+.s-row:last-child{margin-bottom:0}
+.s-icon{font-size:17px;flex-shrink:0}
+.s-info{flex:1;min-width:0}
+.s-name{font-size:13px;font-weight:500;margin-bottom:5px}
+.s-bar{height:4px;background:var(--warm);border-radius:4px;overflow:hidden}
+.s-bar-fill{height:100%;border-radius:4px;transition:width 1s .2s ease}
+.sf-r{background:linear-gradient(90deg,var(--terra-l),var(--terra))}
+.sf-g{background:linear-gradient(90deg,var(--forest-l),var(--forest))}
+.s-num{font-size:16px;font-family:'Cormorant Garamond',serif;font-weight:600;flex-shrink:0;min-width:22px;text-align:right}
+.sn-r{color:var(--terra)}.sn-g{color:var(--forest)}
+.tips{border-radius:18px;padding:28px 32px;margin-bottom:16px}
+.tips-r{background:rgba(196,113,74,.07)}
+.tips-g{background:rgba(61,90,71,.07)}
+.tips h3{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;margin-bottom:14px}
+.tips ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.tips ul li{font-size:14px;color:var(--ink);font-weight:300;line-height:1.65;padding-left:18px;position:relative}
+.tips ul li::before{content:'--';position:absolute;left:0;font-size:11px;letter-spacing:-.05em}
+.tips-r ul li::before{color:var(--terra)}
+.tips-g ul li::before{color:var(--forest)}
+.btn-restart{display:block;width:100%;text-align:center;background:none;border:1.5px solid rgba(138,127,118,.28);color:var(--muted);padding:15px;border-radius:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all .2s;margin-top:8px}
+.btn-restart:hover{border-color:var(--terra);color:var(--terra)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <div class="eyebrow">The 5 Love Languages</div>
+  <h1>How do you<br><em>give and receive</em><br>love?</h1>
+  <p>50 questions across two parts. Each is a straight choice between two real situations. You get two profiles: how you receive love, and how you give it.</p>
+</div>
+
+<div class="banner" id="banner">
+  <span class="banner-icon">&#128154;</span>
+  <h2>Part two.<br><em>How you give love.</em></h2>
+  <p>The first 25 questions looked at how you receive love. Now we flip it — how do you naturally show up for the people you care about?</p>
+  <button class="btn-go" id="btnGo">Continue to part 2 &rarr;</button>
+</div>
+
+<div id="quizWrap">
+  <div class="prog">
+    <div class="prog-bars">
+      <div class="prog-bar"><div class="prog-fill pf-r" id="prR" style="width:0%"></div></div>
+      <div class="prog-bar"><div class="prog-fill pf-g" id="prG" style="width:0%"></div></div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label" id="prLabel">Part 1 of 2 &middot; Question 1 of 25</div>
+      <span class="prog-pill pill-r" id="prPill">Receiving</span>
+    </div>
+  </div>
+  <div class="q-card" id="qCard">
+    <div class="q-num" id="qNum">Question 1</div>
+    <div class="q-text" id="qText"></div>
+    <div class="options" id="opts"></div>
+  </div>
+  <div class="nav">
+    <button class="btn-back" id="btnBack">&#8592; Back</button>
+    <button class="btn-fwd r" id="btnFwd">Next &#8594;</button>
+  </div>
+</div>
+
+<div class="results" id="results">
+  <div class="res-head">
+    <div class="eyebrow">Your love profile</div>
+    <h2>Two sides of<br><em>the same thing</em></h2>
+    <p>How you receive love and how you give it aren't always the same language.</p>
+  </div>
+  <div class="top-cards">
+    <div class="top-card tc-r">
+      <div class="tc-label">You receive love through</div>
+      <span class="tc-icon" id="rIcon"></span>
+      <div class="tc-name" id="rName"></div>
+      <div class="tc-sub" id="rSub"></div>
+      <div class="tc-bar"><div class="tc-bar-fill" id="rFill" style="width:0%"></div></div>
+    </div>
+    <div class="top-card tc-g">
+      <div class="tc-label">You give love through</div>
+      <span class="tc-icon" id="gIcon"></span>
+      <div class="tc-name" id="gName"></div>
+      <div class="tc-sub" id="gSub"></div>
+      <div class="tc-bar"><div class="tc-bar-fill" id="gFill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="insight">
+    <h3 id="insightTitle"></h3>
+    <p id="insightDesc"></p>
+  </div>
+  <div class="score-block">
+    <h3><span class="dot dot-r"></span>Receiving &mdash; full breakdown</h3>
+    <div id="rGrid"></div>
+  </div>
+  <div class="score-block">
+    <h3><span class="dot dot-g"></span>Giving &mdash; full breakdown</h3>
+    <div id="gGrid"></div>
+  </div>
+  <div class="tips tips-r">
+    <h3 id="tRTitle"></h3>
+    <ul id="tRList"></ul>
+  </div>
+  <div class="tips tips-g">
+    <h3 id="tGTitle"></h3>
+    <ul id="tGList"></ul>
+  </div>
+  <button class="btn-restart" id="btnRestart">&#8635; Take it again</button>
+</div>
+
+</div>
+<script>
+var L = {
+  words:{name:"Words of Affirmation",icon:"&#128172;",
+    rTips:["Tell the people close to you that words matter to you — most won't assume it","Practice receiving compliments without deflecting. Just say thank you and let it land","Ask for verbal appreciation when you're missing it. It's a legitimate need","Criticism tends to cut deeper for you than for most. That's worth knowing about yourself"],
+    gTips:["Say the specific thing: 'I'm proud of you because...' lands far harder than 'well done'","Write it sometimes. A message someone can re-read hits differently than something spoken once","Notice and name things others would leave unsaid — that's your real gift","Your partner may not need words the way you do. Learn what they actually need to feel loved"]},
+  time:{name:"Quality Time",icon:"&#9203;",
+    rTips:["Be clear with people that undivided attention is what actually recharges you","Propose specific plans rather than vague ideas — it helps people show up right","Learn the difference between being together and being in the same room","Plan things in advance if the people around you tend to be more spontaneous"],
+    gTips:["Put the phone away. It's the most noticeable thing you can do for someone","Suggest things you can do together, not just next to each other","Listen properly: eye contact, no interrupting, no half-attention","Build small reliable rituals — a walk, a morning coffee — that belong to just the two of you"]},
+  gifts:{name:"Receiving Gifts",icon:"&#127873;",
+    rTips:["Let people know that small, thoughtful gestures mean a lot to you. It's not materialistic","Receive gifts fully rather than minimising them — that's what encourages more","Mark the dates that matter to you. They mean more to you than you might let on","Make it easy for people by occasionally mentioning things you'd actually enjoy"],
+    gTips:["Keep a running note of things people mention wanting, loving, or missing","Give spontaneously, not just on occasions — that's when it counts most","Choose with thought rather than budget. Something personal beats something expensive","Your partner might feel love more through time or action than objects — worth checking"]},
+  service:{name:"Acts of Service",icon:"&#129309;",
+    rTips:["Be specific about what kind of help actually helps — people genuinely can't always guess","Passivity from others can feel like indifference to you even when it isn't. Worth knowing","Show appreciation for small acts, even the obvious ones. It makes people want to keep going","Let people know when you don't want help. Otherwise they'll keep offering"],
+    gTips:["Ask 'what would actually be useful for you this week?' instead of assuming","Do things on their terms, not the way you'd want it done if it were you","You don't need to announce it, but people feel seen when you mention what you've done","Your partner may need to hear how you feel more than see what you do. Don't skip the words"]},
+  touch:{name:"Physical Touch",icon:"&#129303;",
+    rTips:["Tell the people close to you that physical touch matters to you — most won't assume it","The absence of touch can feel like emotional distance to you even if nothing's wrong. Say so","Initiate if your partner is naturally less expressive — don't wait and feel rejected","Build small daily rituals around touch. They do more work than occasional big gestures"],
+    gTips:["Initiate naturally: a hand on the arm, a longer hug when they arrive, sitting close","Create small rituals around touch — they communicate care without needing words","Ask with new people. Not everyone experiences touch the way you do","Know that your absence of touch can feel like coldness to someone whose language it is"]}
+};
+
+var RQ = [
+  {t:"You've had a genuinely rough day. Your partner can only do one thing:",o:[{t:"Sits with you, phone down, and just asks what happened",k:"time"},{t:"Does the dishes, sorts dinner, and tells you to rest",k:"service"}]},
+  {t:"You get some good news at work. What kind of response actually lands?",o:[{t:"They stop what they're doing and say exactly what they're proud of — specifically",k:"words"},{t:"They pull you in for a hug and hold on",k:"touch"}]},
+  {t:"You're watching something together on the sofa. Which makes the evening feel warmer in retrospect?",o:[{t:"They came home with your favourite snack — unprompted",k:"gifts"},{t:"Their phone was on the table all evening, untouched",k:"time"}]},
+  {t:"You're at a draining event. They send you a text. Which message actually helps?",o:[{t:"\"You're doing great. Genuinely. I mean it.\"",k:"words"},{t:"\"I'll have food ready when you're home. Just get through it.\"",k:"service"}]},
+  {t:"Nothing special is happening. What small thing would make you quietly feel loved today?",o:[{t:"They leave something on your desk — a coffee, a note, something small and considered",k:"gifts"},{t:"They sit next to you and put their hand on your knee without saying anything",k:"touch"}]},
+  {t:"You've been stretched thin for two weeks. What actually helps?",o:[{t:"They take something off your plate — handle the errand you've been quietly dreading",k:"service"},{t:"They block out an evening, just the two of you, and are genuinely present for it",k:"time"}]},
+  {t:"You come home and they've done something for you without being asked. Which version feels more like love?",o:[{t:"They dealt with the admin task you mentioned needing to sort",k:"service"},{t:"They picked up something small you mentioned liking, weeks ago",k:"gifts"}]},
+  {t:"You're feeling a bit disconnected from them. What would actually pull you back?",o:[{t:"A long honest conversation where they tell you clearly what you mean to them",k:"words"},{t:"A day together where they're completely present — no distractions, no half-attention",k:"time"}]},
+  {t:"You're away travelling alone for a few days. What do you miss most?",o:[{t:"The way they hold you when you get home",k:"touch"},{t:"The things they quietly do that make your daily life easier",k:"service"}]},
+  {t:"They surprise you with something. Which surprise actually lands better?",o:[{t:"They've booked something for just the two of you — no occasion, just because",k:"time"},{t:"They remembered something you mentioned months ago and got it",k:"gifts"}]},
+  {t:"You're going through something hard. What makes you feel least alone?",o:[{t:"Them holding you without needing to say anything",k:"touch"},{t:"Them saying exactly the right thing — not a platitude, something real and specific",k:"words"}]},
+  {t:"End of a long week. What restores you most?",o:[{t:"Them cooking, handling logistics, making sure you don't have to think",k:"service"},{t:"Lying on the sofa together for hours, no agenda, just being there",k:"time"}]},
+  {t:"Your birthday. Which version actually feels good to you?",o:[{t:"They wrote something specific to you — a card, a letter, something that showed they know you",k:"words"},{t:"They found a gift that proves they've been paying attention all year",k:"gifts"}]},
+  {t:"You're in a rough patch with them. What starts to repair it?",o:[{t:"They sit close and physically close the distance between you",k:"touch"},{t:"They quietly deal with something practical that's been adding to the pressure",k:"service"}]},
+  {t:"You overhear them describing you to someone else. Which would you rather hear?",o:[{t:"Talking about what you mean to them — specifically, not vaguely",k:"words"},{t:"Saying how thoughtful you are, how they always feel taken care of",k:"service"}]},
+  {t:"Long-term, what makes you feel consistently loved day to day?",o:[{t:"That they show up regularly with their actual, undivided attention",k:"time"},{t:"That they remember you in small ways — spontaneous, specific, unprompted",k:"gifts"}]},
+  {t:"You've just had a difficult conversation with someone. What do you need from your partner?",o:[{t:"To be held, or to have them sit physically close to you",k:"touch"},{t:"To hear them say clearly that they're on your side",k:"words"}]},
+  {t:"Your partner is going to be away for a week. What matters most before they leave?",o:[{t:"That they've sorted practical things so your week is easier without them",k:"service"},{t:"That they spend unhurried, undistracted time with you before they go",k:"time"}]},
+  {t:"You're sick and stuck at home. Which gesture actually lifts you?",o:[{t:"They show up with things you didn't ask for but wanted — your favourite things",k:"gifts"},{t:"They rearrange their day to come over and just be with you",k:"time"}]},
+  {t:"They've been busy and distracted for a few days. You're starting to feel it. What would fix it?",o:[{t:"Them putting their arm around you or reaching for your hand",k:"touch"},{t:"Them saying 'I know I've been distracted. You matter more than any of it.'",k:"words"}]},
+  {t:"You've achieved something you worked hard for. What reaction from them means most?",o:[{t:"A proper hug — the kind that says I see you, not just well done",k:"touch"},{t:"Them taking you somewhere or planning something to mark it, just the two of you",k:"time"}]},
+  {t:"What tells you, more than anything, that someone genuinely cares about you?",o:[{t:"They do things without being asked, consistently and quietly",k:"service"},{t:"They remember small details and reference them later — unprompted",k:"gifts"}]},
+  {t:"You're feeling insecure about something. What helps most?",o:[{t:"Them saying clearly and specifically what they think of you — no hedging",k:"words"},{t:"Them pulling you close and staying there for a moment longer than usual",k:"touch"}]},
+  {t:"On an ordinary Wednesday night, what makes you feel like you're with someone who loves you?",o:[{t:"They've quietly taken care of something in the house you'd been meaning to do",k:"service"},{t:"They put their phone away over dinner and are just actually there",k:"time"}]},
+  {t:"When you think about what you most need in a relationship to feel safe and loved, it comes down to:",o:[{t:"Knowing they're thinking of you, even when you're not together — and showing it",k:"gifts"},{t:"Knowing that what they say about you matches how they actually treat you",k:"words"}]}
+];
+
+var GQ = [
+  {t:"Your partner has had a hard week. You have a free evening. You:",o:[{t:"Cook dinner, sort the flat, handle whatever's quietly been piling up",k:"service"},{t:"Suggest going somewhere together — just the two of you, no agenda",k:"time"}]},
+  {t:"A close friend gets some good news. How do you respond?",o:[{t:"Tell them specifically and genuinely what you're happy about — not just 'amazing!'",k:"words"},{t:"Make a plan to celebrate properly. You want to actually be there for it",k:"time"}]},
+  {t:"Your partner mentions offhand that they've been craving something. You:",o:[{t:"File it away and show up with it a week later, unprompted",k:"gifts"},{t:"Organise the thing properly — take care of the logistics and make it happen",k:"service"}]},
+  {t:"Someone you love is going through something hard. Your instinct is to:",o:[{t:"Go over and sit with them. You don't need to talk. You just need to be there.",k:"time"},{t:"Hold them. You don't say much. Physical contact is how you communicate it.",k:"touch"}]},
+  {t:"You want your partner to feel genuinely appreciated. You're most likely to:",o:[{t:"Say it out loud — exactly what you appreciate and why, with no vagueness",k:"words"},{t:"Handle the thing they've been putting off, quietly and without making a thing of it",k:"service"}]},
+  {t:"Your partner is nervous about something tomorrow. You:",o:[{t:"Make sure everything is sorted — packed, prepped, nothing left for them to worry about",k:"service"},{t:"Send a message that says something specific and true, not just 'you've got this'",k:"words"}]},
+  {t:"You want to show someone you've been thinking about them. You:",o:[{t:"Pick up something small you know they'd like — not a big deal, just a thought made real",k:"gifts"},{t:"Send a voice note or message that actually says something, not just a check-in",k:"words"}]},
+  {t:"Your partner comes home exhausted. You:",o:[{t:"Sit next to them and put your arm around them, no words needed",k:"touch"},{t:"Take over the evening entirely — they sit down, you've got everything else",k:"service"}]},
+  {t:"You're thinking about a friend who's far away. You:",o:[{t:"Send them something — a book, something small, something that made you think of them",k:"gifts"},{t:"Call them. A proper call, not a message. You want the actual conversation.",k:"time"}]},
+  {t:"Things between you and your partner have felt a little flat lately. You:",o:[{t:"Plan something real — a trip, a dinner, something you'll actually be present for",k:"time"},{t:"Find a small way to show them you're still paying attention to them",k:"gifts"}]},
+  {t:"A colleague does something that genuinely deserves acknowledgment. You:",o:[{t:"Say it directly, specifically, and in front of people if the moment allows",k:"words"},{t:"Offer to take something off their plate — give them some breathing room",k:"service"}]},
+  {t:"Your partner is feeling low but can't quite explain why. You:",o:[{t:"Pull them close. You don't try to fix it or talk it out. You just hold them.",k:"touch"},{t:"Clear the whole evening. Phone goes away. You're just there for whatever they need.",k:"time"}]},
+  {t:"You're away for a few days. How do you let them know you're thinking of them?",o:[{t:"Find something while you're there that makes you think of them and bring it back",k:"gifts"},{t:"Send a message that actually says something — not 'miss you' but something real",k:"words"}]},
+  {t:"You have a spare afternoon and want to do something for your partner. You:",o:[{t:"Take care of the thing they mentioned needing to do — just handle it",k:"service"},{t:"Show up wherever they are, or find a reason to spend the time together",k:"time"}]},
+  {t:"They've had a genuinely good day and you want to acknowledge it. You:",o:[{t:"Hug them properly when they tell you — not a quick one, a real one",k:"touch"},{t:"Pick up something small on the way home — wine, their favourite thing, something",k:"gifts"}]},
+  {t:"Long-term, what does loving someone well actually look like to you?",o:[{t:"Seeing what they need and handling it consistently, without being asked",k:"service"},{t:"Never letting them wonder how you feel — saying it, often, specifically",k:"words"}]},
+  {t:"Your partner looks tired and overwhelmed when they walk in. You:",o:[{t:"Put your arms around them before they've even taken their coat off",k:"touch"},{t:"Tell them to sit down and start handling whatever needs handling",k:"service"}]},
+  {t:"You're in a new city together for a weekend. How do you show love?",o:[{t:"Find a small local thing to bring home — a book, a food thing, something that says I thought of you",k:"gifts"},{t:"Put your phone away entirely and just wander with them, no agenda",k:"time"}]},
+  {t:"Your partner is dealing with something difficult at work. You:",o:[{t:"Listen properly and then say clearly what you think of them and their ability to handle it",k:"words"},{t:"Make their home life as frictionless as possible so they can focus on it",k:"service"}]},
+  {t:"Sitting together watching something, you naturally:",o:[{t:"Reach over and hold their hand or move closer without a word",k:"touch"},{t:"Pause it to actually talk about what's happening — you want the real conversation",k:"time"}]},
+  {t:"A friend is going through a breakup. You live nearby. You:",o:[{t:"Go over, sit with them all evening, be there without needing to fill the silence",k:"time"},{t:"Show up with their favourite food and something to watch — you've thought about what they need",k:"gifts"}]},
+  {t:"You want your partner to know they're on your mind during the day. You:",o:[{t:"Send something small and specific — not a generic meme, something that's actually about them",k:"gifts"},{t:"Send a voice note or call. You want them to hear it, not just read it.",k:"words"}]},
+  {t:"Your partner has a big presentation tomorrow. The night before, you:",o:[{t:"Sit close to them on the sofa and stay nearby — proximity is how you offer comfort",k:"touch"},{t:"Handle dinner, the flat, anything that needs doing so their mind is free",k:"service"}]},
+  {t:"When you care about someone, what do you find yourself naturally doing?",o:[{t:"Noticing what makes their life harder and quietly removing it",k:"service"},{t:"Remembering what they love and acting on it when they're not expecting it",k:"gifts"}]},
+  {t:"When you love someone well, what does it actually feel like from the inside?",o:[{t:"Like you're paying close attention to them — all the time, not just when it's easy",k:"time"},{t:"Like you never let a good thing go unsaid — you name what you see in them",k:"words"}]}
+];
+
+var TR = RQ.length, TG = GQ.length, TOT = TR + TG;
+var cur = 0, ans = new Array(TOT).fill(null), bannerShown = false, advancing = false;
+
+function getQ(i) {
+  if (i < TR) return {t:RQ[i].t, o:RQ[i].o, sec:'r'};
+  return {t:GQ[i-TR].t, o:GQ[i-TR].o, sec:'g'};
+}
+
+function render() {
+  var q = getQ(cur);
+  var isG = q.sec === 'g';
+  var si = isG ? cur - TR : cur;
+  var st = isG ? TG : TR;
+  document.getElementById('prR').style.width = Math.min(100, (Math.min(cur+1,TR)/TR)*100) + '%';
+  document.getElementById('prG').style.width = (isG ? ((si+1)/TG)*100 : 0) + '%';
+  document.getElementById('prLabel').textContent = 'Part ' + (isG?2:1) + ' of 2 \u00b7 Question ' + (si+1) + ' of ' + st;
+  var pill = document.getElementById('prPill');
+  pill.textContent = isG ? 'Giving' : 'Receiving';
+  pill.className = 'prog-pill ' + (isG ? 'pill-g' : 'pill-r');
+  document.getElementById('qNum').textContent = 'Question ' + (si+1);
+  document.getElementById('qText').textContent = q.t;
+  var cls = isG ? 'g' : 'r';
+  var container = document.getElementById('opts');
+  container.innerHTML = '';
+  for (var i = 0; i < q.o.length; i++) {
+    (function(idx) {
+      var btn = document.createElement('button');
+      btn.className = 'opt ' + cls + (ans[cur] === idx ? ' sel' : '');
+      btn.innerHTML = '<span class="badge">' + (idx === 0 ? 'A' : 'B') + '</span>' + q.o[idx].t;
+      btn.addEventListener('click', function(){ pick(idx); });
+      container.appendChild(btn);
+    })(i);
+  }
+  var fwd = document.getElementById('btnFwd');
+  fwd.textContent = cur === TOT-1 ? 'See my results \u2736' : 'Next \u2192';
+  fwd.className = 'btn-fwd ' + cls + (ans[cur] !== null ? ' on' : '');
+  document.getElementById('btnBack').style.visibility = cur === 0 ? 'hidden' : 'visible';
+}
+
+function pick(i) {
+  ans[cur] = i;
+  var isG = getQ(cur).sec === 'g';
+  var cls = isG ? 'g' : 'r';
+  var opts = document.getElementById('opts').children;
+  for (var j = 0; j < opts.length; j++) {
+    opts[j].className = 'opt ' + cls + (j === i ? ' sel' : '');
+  }
+  document.getElementById('btnFwd').className = 'btn-fwd ' + cls + ' on';
+  if (!advancing) {
+    advancing = true;
+    setTimeout(function(){ advancing = false; advance(); }, 380);
+  }
+}
+
+function advance() {
+  if (ans[cur] === null) return;
+  if (cur === TR-1 && !bannerShown) {
+    bannerShown = true;
+    document.getElementById('quizWrap').style.display = 'none';
+    document.getElementById('banner').classList.add('on');
+    return;
+  }
+  if (cur === TOT-1) { showResults(); return; }
+  cur++;
+  render();
+}
+
+document.getElementById('btnFwd').addEventListener('click', function(){ if(ans[cur]!==null) advance(); });
+document.getElementById('btnBack').addEventListener('click', function(){
+  if (cur === 0) return;
+  if (cur === TR && bannerShown) {
+    document.getElementById('quizWrap').style.display = '';
+    document.getElementById('banner').classList.remove('on');
+    return;
+  }
+  cur--; render();
+});
+document.getElementById('btnGo').addEventListener('click', function(){
+  document.getElementById('banner').classList.remove('on');
+  document.getElementById('quizWrap').style.display = '';
+  cur = TR; render();
+});
+document.getElementById('btnRestart').addEventListener('click', function(){
+  cur = 0; ans = new Array(TOT).fill(null); bannerShown = false;
+  document.getElementById('quizWrap').style.display = '';
+  document.getElementById('banner').classList.remove('on');
+  document.getElementById('results').classList.remove('on');
+  window.scrollTo(0,0); render();
+});
+
+function tally(sec) {
+  var s = {words:0,time:0,gifts:0,service:0,touch:0};
+  var st = sec==='r'?0:TR, en = sec==='r'?TR:TOT;
+  for (var i = st; i < en; i++) {
+    if (ans[i] === null) continue;
+    s[getQ(i).o[ans[i]].k]++;
+  }
+  return s;
+}
+
+function topKey(s) {
+  var best = null, bv = -1;
+  for (var k in s) { if (s[k] > bv) { bv = s[k]; best = k; } }
+  return best;
+}
+
+function buildGrid(scores, fillCls, numCls, el) {
+  var tot = 0;
+  for (var k in scores) tot += scores[k];
+  var entries = [];
+  for (var k in scores) entries.push([k, scores[k]]);
+  entries.sort(function(a,b){ return b[1]-a[1]; });
+  el.innerHTML = '';
+  for (var i = 0; i < entries.length; i++) {
+    var lang = L[entries[i][0]], v = entries[i][1];
+    var pct = tot > 0 ? Math.round(v/tot*100) : 0;
+    var row = document.createElement('div');
+    row.className = 's-row';
+    row.innerHTML = '<span class="s-icon">' + lang.icon + '</span>' +
+      '<div class="s-info"><div class="s-name">' + lang.name + '</div>' +
+      '<div class="s-bar"><div class="s-bar-fill ' + fillCls + '" style="width:0%" data-p="' + pct + '"></div></div></div>' +
+      '<div class="s-num ' + numCls + '">' + v + '</div>';
+    el.appendChild(row);
+  }
+  setTimeout(function(){
+    var bars = el.querySelectorAll('.s-bar-fill');
+    for (var i = 0; i < bars.length; i++) bars[i].style.width = bars[i].getAttribute('data-p') + '%';
+  }, 150);
+}
+
+function showResults() {
+  document.getElementById('quizWrap').style.display = 'none';
+  document.getElementById('results').classList.add('on');
+  window.scrollTo(0,0);
+  var rs = tally('r'), gs = tally('g');
+  var rk = topKey(rs), gk = topKey(gs);
+  var rl = L[rk], gl = L[gk];
+  var rtot = 0, gtot = 0;
+  for (var k in rs) rtot += rs[k];
+  for (var k in gs) gtot += gs[k];
+  var rp = rtot > 0 ? Math.round(rs[rk]/rtot*100) : 0;
+  var gp = gtot > 0 ? Math.round(gs[gk]/gtot*100) : 0;
+  document.getElementById('rIcon').innerHTML = rl.icon;
+  document.getElementById('rName').textContent = rl.name;
+  document.getElementById('rSub').textContent = rp + '% of your answers';
+  document.getElementById('gIcon').innerHTML = gl.icon;
+  document.getElementById('gName').textContent = gl.name;
+  document.getElementById('gSub').textContent = gp + '% of your answers';
+  setTimeout(function(){
+    document.getElementById('rFill').style.width = rp + '%';
+    document.getElementById('gFill').style.width = gp + '%';
+  }, 120);
+  var same = rk === gk;
+  document.getElementById('insightTitle').textContent = same
+    ? 'Your giving and receiving language are the same'
+    : 'You give and receive love differently';
+  document.getElementById('insightDesc').textContent = same
+    ? 'Both come back to ' + rl.name.toLowerCase() + '. That alignment can make relationships feel natural on your end — but watch out for assuming others experience love the same way. They almost certainly don\'t.'
+    : 'You receive love through ' + rl.name.toLowerCase() + ', but you give it through ' + gl.name.toLowerCase() + '. This mismatch is more common than people think — and it explains a lot of silent disconnects. You\'re expressing care in a language the other person may not be fluent in. Worth learning theirs.';
+  buildGrid(rs, 'sf-r', 'sn-r', document.getElementById('rGrid'));
+  buildGrid(gs, 'sf-g', 'sn-g', document.getElementById('gGrid'));
+  document.getElementById('tRTitle').textContent = 'How to feel loved \u2014 ' + rl.name;
+  document.getElementById('tGTitle').textContent = 'How to love better \u2014 ' + gl.name;
+  var rList = document.getElementById('tRList');
+  var gList = document.getElementById('tGList');
+  rList.innerHTML = ''; gList.innerHTML = '';
+  for (var i = 0; i < rl.rTips.length; i++) {
+    var li = document.createElement('li'); li.textContent = rl.rTips[i]; rList.appendChild(li);
+  }
+  for (var i = 0; i < gl.gTips.length; i++) {
+    var li = document.createElement('li'); li.textContent = gl.gTips[i]; gList.appendChild(li);
+  }
+}
+
+render();
+</script>
+</body>
+</html>
